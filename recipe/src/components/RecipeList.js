@@ -3,6 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const RecipeList = ({recipe}) => {
+  console.log("hello" ,recipe);
   return <div className='recipe-list'>
     
         {recipe && recipe.map((recipe) =>(

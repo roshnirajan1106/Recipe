@@ -1,70 +1,46 @@
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+function of useRef : 
+1. Focussing on the input
+2. if we want to focus on a particular input feild then make use of useRef feild
+3. const inputIng = useRef(null)
+4. go to that input feild and add a prop , ref={inputIng}
+5. Now inputIng has full control over that input value
+6. now use focus method on it
+7. inputIng.current.focus()
+   --------------------
+1. .trim() function removes whitespaces
+2. const ing=newIngredients.trim(); //removes whitespace - example
+3. !ingredients.includes(ing) - find function
+------------------------------------------
+Making a post request
+1. const useFetch = (url ,method = "GET") 
+2. Here method ="GET" is by-default 
+3. we can manually pass any argument
+--------------------------------------------
+1. Make a postdata function = takes argument the data , and invoked in create.js 
+2. const postData = (postData) => {
+      setOptions({
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+          //type of data- > json data
+        },
+        body: JSON.stringify(postData)
+      })
+    }
+3. here we're setting options such as method->post, headers-> datatype , body- >the data we're getting is in the form of json we should stringyfy it coz we're sending it to our database
+4. this options are necessary inside fetch function to make a post request
+---------------------------------------------
+5. How to redirect
+6. import useHistory hook
+7. const history = useHistory()
+8. then history.push("/");
+9. this redirects the page to home page
+   -------------------------------------------
+1. useLocation() = is used to get the queryString
+2. to get the actual querystring we make use of 
+const queryParams = new URLSearchParams(queryString); this is javascript
+3. then to get the actual query we make use of get function
+const queryString = useLocation().search; //? 
+  const queryParams = new URLSearchParams(queryString);
+  const query = queryParams.get('q');
+  const url ="http://localhost:8000/recipes?q=" + query;
