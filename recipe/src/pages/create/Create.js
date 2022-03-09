@@ -1,99 +1,94 @@
-import { useState, useRef, useEffect } from 'react'
-import  useFetch from '../../hooks/useFetch'
-import { useHistory } from 'react-router-dom'
-
-// styles
+import React from 'react'
+import { useState ,useRef} from 'react'
+import {useHistory} from 'react-router-dom'
+import { useEffect } from 'react'
+import { useFetch } from '../../hooks/useFetch'
 import './Create.css'
-
-export default function Create() {  
-  const [title, setTitle] = useState('')
-  const [method, setMethod] = useState('')
-  const [cookingTime, setCookingTime] = useState('')
-  const [newIngredient, setNewIngredient] = useState('')
-  const [ingredients, setIngredients] = useState([])
-  const ingredientInput = useRef(null)
+const Create = () => {
+  const[title,setTitle] = useState(null);
+  const[method,setMethod] = useState(null);
+  const[cookingTime,setCookingTime] = useState('');
+  const [ingredients,setIngredients] = useState([]);
+  const[newIngredients,setNewIngredients] = useState('');
+  const ingredientInput = useRef(null);
+  const {postData, data, error}= useFetch("http://localhost:8000/recipes","POST");
+  //every req brings back some data, even its post
   const history = useHistory();
-  const { postData, data,error } = useFetch('http://localhost:8000/recipes', 'POST')
-  //this function is inovked , but this doesnt invoke the postData function inside
-  //create.js , thus options = null and thus no fetching of data will be done and 
-  // the data here is null unless we invoke the postdata function
-  
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    postData({ title, ingredients, method, cookingTime: cookingTime + ' minutes' })
-    // do not re- direct here because postData is async
-  
-  }
+  const handleSubmit = (e) =>{
+    e.preventDefault();
+    console.log(title,cookingTime, method);
+    postData({title,ingredients,method,cookingTime:cookingTime + ' minutes'});
 
-  const handleAdd = (e) => {
-    e.preventDefault()
-    const ing = newIngredient.trim()
-
-    if (ing && !ingredients.includes(ing)) {
-      setIngredients(prevIngredients => [...prevIngredients, newIngredient])
-    }
-    setNewIngredient('')
-    ingredientInput.current.focus()
   }
-  useEffect(() =>{
-      if(data){
+  //redirecting the user
+
+    useEffect(() =>{
+        if(data){
           history.push('/');
-          //this redirects the our page to home
-      }
-  },[data])
+        }
+    },[data]);
 
 
+  const handleClick = (e) =>
+  {
+    e.preventDefault();
+    const ing = newIngredients.trim();
+    if(ing && !ingredients.includes(ing)){
+      setIngredients((prev)  =>[...prev,ing] )
+    }
+    setNewIngredients('');
+    ingredientInput.current.focus();
 
+
+  }
   return (
-    <div className="create">
-      <h2 className="page-title">Add a New Recipe</h2>
+   <div className='create'>
+     <h2 className='page-title'>Add a new Recipe</h2>
       <form onSubmit={handleSubmit}>
-
         <label>
-          <span>Recipe title:</span>
-          <input 
-            type="text" 
-            onChange={(e) => setTitle(e.target.value)}
-            value={title}
+          <span>Recipe Title :</span>
+          <input type="text" 
+            onChange ={(e) =>setTitle(e.target.value)}
+            value = {title}
             required
           />
         </label>
-
         <label>
-          <span>Recipe Ingredients:</span>
-          <div className="ingredients">
-            <input 
-              type="text" 
-              onChange={(e) => setNewIngredient(e.target.value)}
-              value={newIngredient}
+          <span>Recipe Ingredients :</span>
+          <div className='ingredients'>
+            <input
+              type="text"
+              value={newIngredients}
+              onChange= {(e) =>setNewIngredients(e.target.value) }
+              
               ref={ingredientInput}
-            />
-            <button onClick={handleAdd} className="btn">add</button>
+              />
+              <button onClick ={handleClick}className='btn'>add</button>
           </div>
         </label>
-        <p>Current ingredients: {ingredients.map(i => <em key={i}>{i}, </em>)}</p>
-
+        <p>Current Ingredients : {ingredients.map(i => <em key={i}> {i} ,</em>)}</p>
         <label>
-          <span>Recipe Method:</span>
-          <textarea 
-            onChange={(e) => setMethod(e.target.value)}
-            value={method}
+          <span>Recipe Method :</span>
+          <textarea type="text" 
+            onChange ={(e) =>setMethod(e.target.value)}
+            value = {method}
             required
           />
         </label>
-
         <label>
-          <span>Cooking time (minutes):</span>
-          <input 
-            type="number" 
-            onChange={(e) => setCookingTime(e.target.value)}
-            value={cookingTime}
-            required 
+          <span>CookingTime(minutes):</span>
+          <input type="text" 
+            onChange ={(e) =>setCookingTime(e.target.value)}
+            value = {cookingTime}
+            required
           />
         </label>
-
-        <button className="btn">submit</button>
+        <button className='btn'>Submit</button>
       </form>
-    </div>
+   
+   </div>
+   
   )
 }
+
+export default Create

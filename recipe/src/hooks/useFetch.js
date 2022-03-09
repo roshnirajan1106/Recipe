@@ -1,63 +1,52 @@
-import { useState,useEffect } from "react";
-
-
-const useFetch = (url ,method = "GET") => {
+import { useEffect,useState } from 'react'
+export const useFetch = (url,method = "GET") => {
     const[data,setData] = useState(null);
     const[error,setError] = useState(null);
-    const[loading,setLoading] = useState(false);
-    const [options, setOptions] = useState(null)
-
-    const postData = (postData) => {
-      setOptions({
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-          //type of data- > json data
-        },
-        body: JSON.stringify(postData)
-      })
+    const[loading, setLoading] = useState(false);
+    const[options,setOptions] = useState(null);
+    const postData = (postData) =>{
+        setOptions({
+            method :"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify(postData)
+        })
     }
-    
-    useEffect(() => {
-      const controller = new AbortController()
-  
-      const fetchData = async (fetchOptions) => {
-        setLoading(true)
+    //for making a post req , u need header, body and method
+    //in header - u mention type of data
+    //in body - u mention  the data
+    useEffect( () =>{
+        setLoading(true);
+       const fetchData = async(fetchOptions) =>{
         
-        try {
-          const res = await fetch(url, { ...fetchOptions, signal: controller.signal })
-          if(!res.ok) {
-            throw new Error(res.statusText)
-          }
-          const data = await res.json()
-  
-          setLoading(false)
-          setData(data)
-          setError(null)
-        } catch (err) {
-          if (err.name === "AbortError") {
-            console.log("the fetch was aborted")
-          } else {
-            setLoading(false)
-            setError('Could not fetch the data')
-          }
+        try{
+            const res =await fetch(url,{...fetchOptions});
+            if(!res.ok){
+                throw new Error(res.statusText);
+            }
+            const json = await res.json();
+            setData(json);
+            setLoading(false);
+            setError(null);
+        }catch(err){
+            console.log(err);
+            setError('Could Not fetch the data');
+            
+            setLoading(false);
         }
-      }
-  
-      // invoke the function
-      if (method === "GET") {
-        fetchData()
-      }
-      if (method === "POST" && options) {
-        fetchData(options)
-      }
-  
-      return () => {
-        controller.abort()
-      }
-  
-    }, [url, method, options])
-  return { data, loading, error, postData } 
-};
 
-export default useFetch;
+       }
+       
+       if(method === "GET"){
+       fetchData()
+       }
+       if(method === "POST" && options){
+           fetchData(options)
+       }
+
+
+    },[url,method,options]);
+  return {data,loading,error,postData}
+}
+

@@ -1,46 +1,50 @@
-function of useRef : 
-1. Focussing on the input
-2. if we want to focus on a particular input feild then make use of useRef feild
-3. const inputIng = useRef(null)
-4. go to that input feild and add a prop , ref={inputIng}
-5. Now inputIng has full control over that input value
-6. now use focus method on it
-7. inputIng.current.focus()
-   --------------------
-1. .trim() function removes whitespaces
-2. const ing=newIngredients.trim(); //removes whitespace - example
-3. !ingredients.includes(ing) - find function
-------------------------------------------
-Making a post request
-1. const useFetch = (url ,method = "GET") 
-2. Here method ="GET" is by-default 
-3. we can manually pass any argument
---------------------------------------------
-1. Make a postdata function = takes argument the data , and invoked in create.js 
-2. const postData = (postData) => {
-      setOptions({
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-          //type of data- > json data
-        },
-        body: JSON.stringify(postData)
-      })
-    }
-3. here we're setting options such as method->post, headers-> datatype , body- >the data we're getting is in the form of json we should stringyfy it coz we're sending it to our database
-4. this options are necessary inside fetch function to make a post request
----------------------------------------------
-5. How to redirect
-6. import useHistory hook
-7. const history = useHistory()
-8. then history.push("/");
-9. this redirects the page to home page
-   -------------------------------------------
-1. useLocation() = is used to get the queryString
-2. to get the actual querystring we make use of 
-const queryParams = new URLSearchParams(queryString); this is javascript
-3. then to get the actual query we make use of get function
-const queryString = useLocation().search; //? 
-  const queryParams = new URLSearchParams(queryString);
-  const query = queryParams.get('q');
-  const url ="http://localhost:8000/recipes?q=" + query;
+Start the react app
+-npm start
+1. Page vs component - page is a full window screen and component is a part of a page
+
+Download react-router
+1. npm i react-router-dom@5.1
+
+React-router-dom syntax -  BASIC ONE 
+<!-- function App() {
+  return (
+    <div className="App">
+    <BrowserRouter>
+      <switch>
+        
+      </switch>
+    </BrowserRouter>
+    </div>
+  );
+} -->
+1. Inside switch we need to paste our routes to diffrent pages.
+2. Switch enables only one route at a time
+
+3. A single route syntax
+<!-- <Route  exact path="/">
+          <Home />
+        </Route> -->
+4. how to go to a particular page with the help of an id
+    - Make use of useParams() hook
+    - Extract the id
+    - const  {id} = useParams
+    - Attach it with the url and done
+    - You'll get the required data
+5. Making a post request
+   1. first create the options for making the post request , things needed are header,body, and method.
+   2. header - to tell what type of data, body - has the actual data
+   3. create this inside useState , and pass this is as an argument to fetch function using spread operator.
+   4. so whenEver we want to make a post req theres a need for options (body,method etc)
+   5. so make a diffrent function which will set this options in the useState and invoke the fetch data function
+6. How to redirect the user.
+   1. See an appropriate place to call the hook, dont call it near asynchronus functions
+   2. make use of useHistory hook inside react-router-dom
+   3. const history = useHistory();
+   4. then push "/" inside history to redirect it.
+
+7. How to get the query parameter
+   1. Make use of useLocation hook
+   2. const querystring = useLocation().search -> "?q=pie"
+   3. take out the question mark 
+   4. const queryParams = new URLSearchParams(querystring)
+   5. const query = queryParams.get('q');

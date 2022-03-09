@@ -1,18 +1,21 @@
+import React, { useState } from 'react'
 import './Home.css'
-import React, { useState } from 'react';
-import useFetch from '../../hooks/useFetch';
+import {useFetch} from '../../hooks/useFetch'
 import RecipeList from '../../components/RecipeList';
-
 const Home = () => {
-  const[url,setUrl] = useState("http://localhost:8000/recipes");
 
-  const {data, loading,error} = useFetch(url);
+  
+  const {data,loading,error} = useFetch('http://localhost:8000/recipes');
   console.log(data);
-  return <div className='home'>
-      {loading && <p className='loading'>Loading...</p>}
-      {error && <p className='error'>{error}</p>}
-      {data && <RecipeList recipe = {data} />}
-  </div>;
-};
+  return (
+    <div className='home'>
+      {error && <p className='error'>
+        {error}
+      </p>}
+      {loading && <p className='loading'>Loading..</p>}
+      {data && <RecipeList data = {data}/>}
+    </div>
+  )
+}
 
-export default Home;
+export default Home
