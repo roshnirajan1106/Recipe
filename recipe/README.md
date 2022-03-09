@@ -48,3 +48,6 @@ React-router-dom syntax -  BASIC ONE
    3. take out the question mark 
    4. const queryParams = new URLSearchParams(querystring)
    5. const query = queryParams.get('q');
+================================================
+CONTEXT API
+1. 
