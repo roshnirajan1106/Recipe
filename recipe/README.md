@@ -48,3 +48,6 @@ React-router-dom syntax -  BASIC ONE
    3. take out the question mark 
    4. const queryParams = new URLSearchParams(querystring)
    5. const query = queryParams.get('q');
+ <h1> </hr>
+ <h1>CONTEXT API<h1>
+  <img src="https://user-images.githubusercontent.com/56948080/157485614-947c001f-584c-4663-96e7-ce6d6ec41828.png" />
